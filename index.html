@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VIP Referral - Earn ₹1000</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
+      color: #f1f1f1;
+      text-align: center;
+    }
+    header {
+      background: linear-gradient(to right, #00f0ff, #0044ff);
+      padding: 25px 10px;
+      font-size: 28px;
+      color: white;
+      box-shadow: 0 0 15px #00eaff;
+    }
+    .tagline {
+      font-size: 14px;
+      margin-top: 5px;
+      color: #0ff;
+    }
+    .container {
+      padding: 25px;
+    }
+    .section {
+      margin: 25px 0;
+      background: #111;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0,255,255,0.1);
+    }
+    .button {
+      margin: 12px;
+      padding: 14px 25px;
+      font-size: 18px;
+      background: linear-gradient(to right, #ff0080, #7928ca);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 0 12px #ff00cc;
+    }
+    .button:disabled {
+      background: #444;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+    .referral-box {
+      display: none;
+      margin-top: 25px;
+      padding: 20px;
+      border-radius: 12px;
+      border: 2px dashed #00ffcc;
+      background: #0c0c0c;
+    }
+    .notice, .policy {
+      color: #aaa;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+    .leaderboard {
+      margin-top: 30px;
+      background: #222;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid #00ffaa;
+    }
+    .leaderboard h3 {
+      color: #00ffaa;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    li {
+      padding: 5px 0;
+    }
+    code {
+      background: #111;
+      padding: 10px 14px;
+      border-radius: 8px;
+      display: block;
+      margin: 12px auto;
+      width: fit-content;
+      color: #00ffcc;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  Haris Refer & Earn ₹1000
+  <div class="tagline">Subscribe + WhatsApp + Share = 💸 Reward</div>
+</header>
+
+<div class="container">
+
+  <div class="section">
+    <h2>🎁 Invite & Earn</h2>
+    <p>Complete 2 simple steps to unlock your referral link!</p>
+
+    <button class="button" id="subBtn" onclick="subscribeClicked()">1️⃣ Subscribe to YouTube</button>
+    <button class="button" id="waBtn" onclick="joinWhatsAppClicked()">2️⃣ Join WhatsApp Group</button>
+    <button id="referralBtn" class="button" onclick="startReferral()" disabled>3️⃣ Unlock Referral</button>
+
+    <div class="notice">You must complete both steps above.</div>
+  </div>
+
+  <div class="referral-box" id="referralBox">
+    <!-- Referral content will load here -->
+  </div>
+
+  <div class="leaderboard">
+    <h3>🏆 Top Referrers</h3>
+    <ul>
+      <li>🥇 Ali – ₹3000</li>
+      <li>🥈 Zara – ₹2000</li>
+      <li>🥉 Usman – ₹1000</li>
+    </ul>
+  </div>
+
+  <p class="policy">Rewards via JazzCash / EasyPaisa | Verified referrals only | T&Cs apply</p>
+</div>
+
+<script>
+  let subscribed = false;
+  let joined = false;
+  let referralCode = '';
+
+  window.onload = function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    referralCode = urlParams.get('ref') || '';
+    if (referralCode) {
+      localStorage.setItem("referrer", referralCode);
+      console.log("Referral saved: " + referralCode);
+    }
+  }
+
+  function openInNewTab(url) {
+    const newWindow = window.open(url, '_blank');
+    if (newWindow) newWindow.focus();
+    else alert('Please allow pop-ups for this site to continue.');
+  }
+
+  function subscribeClicked() {
+    openInNewTab("https://youtube.com/@japneesghoul?si=NfeW9IwfgrNlQQfT"); // 🔁 Replace with your YouTube channel
+    const btn = document.getElementById("subBtn");
+    btn.disabled = true;
+    btn.textContent = "⏳ Verifying...";
+    setTimeout(() => {
+      subscribed = true;
+      btn.style.background = "#28a745";
+      btn.textContent = "✅ Subscribed";
+      checkTasks();
+    }, 10000);
+  }
+
+  function joinWhatsAppClicked() {
+    openInNewTab("https://whatsapp.com/channel/0029VbAwbv21NCrTudVWcw0l"); // 🔁 Replace with your WhatsApp group link
+    const btn = document.getElementById("waBtn");
+    btn.disabled = true;
+    btn.textContent = "⏳ Verifying...";
+    setTimeout(() => {
+      joined = true;
+      btn.style.background = "#28a745";
+      btn.textContent = "✅ Joined WhatsApp";
+      checkTasks();
+    }, 10000);
+  }
+
+  function checkTasks() {
+    if (subscribed && joined) {
+      const btn = document.getElementById("referralBtn");
+      btn.disabled = false;
+      btn.textContent = "✅ Referral Ready – Click to Start";
+    }
+  }
+
+  function startReferral() {
+    if (subscribed && joined) {
+      const refBox = document.getElementById("referralBox");
+      const ref = localStorage.getItem("referrer") || "None";
+
+      refBox.innerHTML = `
+        <h3>🚀 Referral Activated!</h3>
+        <p>You were referred by: <strong style="color:#0ff;">${ref}</strong></p>
+        <p>Copy your referral link & invite friends:</p>
+        <code>https://your-site.netlify.app/?ref=YOURCODE</code>
+        <p class="notice">Refer 20+ users and send proof via WhatsApp to claim ₹1000.</p>
+      `;
+      refBox.style.display = "block";
+    } else {
+      alert("❌ Complete both tasks first!");
+    }
+  }
+</script>
+
+</body>
+</html>
